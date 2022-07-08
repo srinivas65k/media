@@ -18,7 +18,6 @@ const UserData = () => {
 
   useEffect(()=>{
     const loginToken = localStorage.getItem("token")
-    console.log(loginToken)
     if(loginToken){
       setToken(loginToken)
     }
@@ -32,7 +31,6 @@ const UserData = () => {
       },
     })
       .then(res => {
-        console.log(res)
         setData(res.data)
         setLoading(true)
         HandleChange("")
@@ -47,6 +45,7 @@ const UserData = () => {
     navigate("/login")
     setLoading(false)
     setToken(localStorage.removeItem("token"))
+    window.location.reload()
   }
 
 

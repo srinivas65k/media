@@ -5,16 +5,14 @@ const SentFriendRequest = ({ data }) => {
 
     const [friendRequestData, setFriendRequestData] = useState();
     const [requestData, setRequestData] = useState(false)
-    console.log(data)
 
     // Friend Request sent to users
 
     const friendRequestsSent = () => {
         axios.get(`http://localhost:3002/notificationRequestSent?id=${data._id}`)
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setFriendRequestData(response.data.data)
-                // console.log(response.data.data)
                 setRequestData(true)
             }).catch(error => {
                 console.log(error)

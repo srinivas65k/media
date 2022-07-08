@@ -140,12 +140,17 @@ app.put("/sendFriendRequest", async (request, response) => {
     const { selfId, requestId } = request.body
 
     try {
-        const friends = await FriendsModule.create({
-            selfId: selfId,
-            requestId: requestId,
-            status: "pending"
-        })
-        response.status(200).send({ status: true, data: friends })
+        const findReqId = await FriendsModule.findOne({ requestId: requestId })
+        if (findReqId) {
+            response.status(400).send({ status: true, data: "Friend Request Already Sent" })
+        } else {
+            const friends = await FriendsModule.create({
+                selfId: selfId,
+                requestId: requestId,
+                status: "pending"
+            })
+            response.status(200).send({ status: true, data: friends })
+        }
 
     } catch (error) {
         response.status(400).send({ status: false, error: error })
@@ -230,7 +235,10 @@ app.get("/notificationRequestSent", async (request, response) => {
         if (findRootUser.length !== 0) {
             for (let rootUser of findRootUser) {
                 let usersObj = {}
-                var requestedDetails = await UsersModel.findOne({ _id: mongoose.Types.ObjectId(rootUser.requestId) })
+                var requestedDetails = await UsersModel.findOne
+                ({ _id: mongoose.Types.ObjectId(rootUser.requestId) })
+                // ({ _id: rootUser.requestId })
+                console.log(requestedDetails)
                 usersObj["userId"] = requestedDetails._id
                 usersObj["firstName"] = requestedDetails.firstName
                 usersObj["lastName"] = requestedDetails.lastName
@@ -283,7 +291,7 @@ app.put("/acceptRequest", async (request, response) => {
     const { id } = request.query
 
     try {
-        const acceptingUser = await FriendsModule.findByIdAndUpdate(id , { status: "accepted" } )
+        const acceptingUser = await FriendsModule.findByIdAndUpdate(id, { status: "accepted" })
         console.log(acceptingUser);
 
     } catch (error) {

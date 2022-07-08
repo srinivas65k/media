@@ -12,14 +12,13 @@ const ReceivedFriendRequest = ({ data }) => {
         axios.get(`http://localhost:3002/notificationRequestReceived?id=${data._id}`)
             .then(response => {
                 setFriendRequestData(response.data.data)
+                console.log(response)
                 setRequestData(true)
 
             }).catch(error => {
                 console.log(error)
             })
     }
-
-    console.log("datttaaaaaaaaaaaaaaaaaa",friendRequestData)
 
     // Accept Request
 
@@ -46,11 +45,13 @@ const ReceivedFriendRequest = ({ data }) => {
                 requestData === true && friendRequestData !== "no friends found" ?
 
                 friendRequestData.map((user) =>
-                    user.status !== "accepted" &&
+                    user.status !== "accepted" ?
                     <div key={user._id}>
                         <h3>{user.firstName} {user.lastName}</h3>
                         <button onClick={() => acceptFriendRequest(user._id)}>Accept</button>
                     </div>
+                    :
+                    "You Have No Friend Requests"
                 )
                 :
                 "You Have No Friend Requests"

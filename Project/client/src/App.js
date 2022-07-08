@@ -15,7 +15,6 @@ function App() {
 
   useEffect(() => {
     setToken(localStorage.getItem("token"))
-    console.log("tokeeeeeeeeeeeeeeeeeeen",token)
   },[])
 
 

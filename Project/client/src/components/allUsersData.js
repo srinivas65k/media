@@ -6,7 +6,9 @@ const AllUsersData = ({ allUsersData, data }) => {
         axios.put("http://localhost:3002/sendFriendRequest", { selfId: data._id, requestId: id })
             .then(res => {
                 console.log(res.data)
-            })
+            }).catch(
+                err => alert(err.response.data.data)
+            )
     }
 
     

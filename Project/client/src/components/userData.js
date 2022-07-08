@@ -14,7 +14,15 @@ const UserData = () => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [token, setToken] = useContext(store);
-  const [allUsersData, setAllUsersData] = useState();
+  const [allUsersData, setAllUsersData] = useState([]);
+
+  useEffect(()=>{
+    const loginToken = localStorage.getItem("token")
+    console.log(loginToken)
+    if(loginToken){
+      setToken(loginToken)
+    }
+  },[])
 
 
   useEffect(() => {
@@ -24,7 +32,7 @@ const UserData = () => {
       },
     })
       .then(res => {
-        // console.log(res)
+        console.log(res)
         setData(res.data)
         setLoading(true)
         HandleChange("")
@@ -38,7 +46,7 @@ const UserData = () => {
   const handleLogout = () => {
     navigate("/login")
     setLoading(false)
-    window.location.reload()
+    setToken(localStorage.removeItem("token"))
   }
 
 
@@ -52,7 +60,12 @@ const UserData = () => {
       }
     })
       .then(res => {
-        setAllUsersData(res.data)
+        if(res.data !== "Invalid Access Token"){
+          setAllUsersData(res.data)
+
+        }else{
+          setAllUsersData([])
+        }
         setLoading(true)
       })
   }

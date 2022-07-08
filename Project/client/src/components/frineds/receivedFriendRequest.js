@@ -35,7 +35,7 @@ const ReceivedFriendRequest = ({ data }) => {
 
     useEffect(() => {
         friendRequestsReceived()
-    }, [])
+    }, [data])
 
 
     return (

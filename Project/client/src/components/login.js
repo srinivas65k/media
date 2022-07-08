@@ -9,7 +9,6 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [token,setToken] = useContext(store)
     const navigate = useNavigate();
-    console.log("dfgdfy")
 
     const handleLogin = (e) => {
         axios.post("http://localhost:3002/login", {
@@ -17,6 +16,7 @@ const Login = () => {
             password: password
         }).then(res => {
             setToken(res.data)
+            localStorage.setItem("token",res.data)
             navigate("/userData")
         }).catch(err => {
             console.log(err)

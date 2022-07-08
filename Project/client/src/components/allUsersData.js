@@ -14,8 +14,8 @@ const AllUsersData = ({ allUsersData, data }) => {
 
     return (
         <div>
-            {
-                allUsersData.map((user, key) => {
+            { allUsersData?.length > 0 ?
+                allUsersData?.map((user, key) => {
                     return (
                         <div key={key}>
                             <h3>{user.firstName} {user.lastName}</h3>
@@ -23,6 +23,7 @@ const AllUsersData = ({ allUsersData, data }) => {
                         </div>
                     )
                 })
+                : null
             }
         </div>
     )

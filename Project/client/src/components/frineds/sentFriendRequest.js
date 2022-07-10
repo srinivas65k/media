@@ -14,7 +14,6 @@ const SentFriendRequest = () => {
     const friendRequestsSent = () => {
         axios.get(`http://localhost:3002/notificationRequestSent?id=${data._id}`)
             .then(response => {
-                // console.log(response)
                 setFriendRequestData(response.data.data)
                 setRequestData(true)
             }).catch(error => {

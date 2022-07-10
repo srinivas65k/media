@@ -10,11 +10,6 @@ import { PayloadContext } from "./components/context"
 import axios from 'axios';
 
 
-// export const store = createContext();
-// export const userDataSelf = createContext();
-// export const userDataLoading = createContext();
-
-
 function App() {
   const [token, setToken] = useState(null);
   const [data, setData] = useState([]);

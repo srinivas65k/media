@@ -27,7 +27,6 @@ const SignUp = () => {
         }).catch(err => {
             console.log(err)
         })
-        // e.preventDefault();
     }
 
     return (

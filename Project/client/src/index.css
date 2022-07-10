@@ -1,24 +1,77 @@
-.form-container{
+.form-container {
   text-align: center;
   border: 5px solid black;
 }
-form{
-  display:flex ;
+
+form {
+  display: flex;
   flex-direction: column;
   align-items: center;
   /* width: 200px; */
 }
+
 form label {
   margin: 5px;
   font-weight: bold;
   font-size: large;
   float: left;
 }
+
 form button {
   margin: 20px;
   font-size: large;
 }
+
 form input {
   width: 500px;
   height: 30px;
+}
+
+.header {
+  background-color: aquamarine;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  margin-left: 70px;
+}
+
+.userDetailsCard {
+  background-color: whitesmoke;
+  margin-top: 30px;
+}
+
+.userDetails button {
+  width: 100px;
+  height: 50px;
+  background-color: rgb(146, 102, 110);
+  border: none;
+  color: white;
+  margin-bottom: 20px;
+  font-size: 25px;
+}
+
+.notifications {
+  text-align: center;
+}
+
+.notificationsCard {
+  text-align: center;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+}
+
+.debounce{
+  position: relative;
+  margin-right: 30px;
 }

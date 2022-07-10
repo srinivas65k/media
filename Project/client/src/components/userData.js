@@ -1,45 +1,20 @@
-import axios from 'axios'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { store } from '../App';
-import AllUsersData from './allUsersData';
-import ReceivedFriendRequest from './frineds/receivedFriendRequest';
-import SentFriendRequest from './frineds/sentFriendRequest';
+import React, { useContext, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { PayloadContext } from './context';
+import Header from './header/header';
 
 
 const UserData = () => {
-
-  const { email } = useParams();
-  const [data, setData] = useState();
-  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
-  const [token, setToken] = useContext(store);
-  const [allUsersData, setAllUsersData] = useState([]);
-
-  useEffect(()=>{
-    const loginToken = localStorage.getItem("token")
-    if(loginToken){
-      setToken(loginToken)
-    }
-  },[])
-
+  const { setToken, token, data, loading, setLoading } = useContext(PayloadContext)
 
   useEffect(() => {
-    axios.get("http://localhost:3002/getUserData", {
-      headers: {
-        'x-token': [token]
-      },
-    })
-      .then(res => {
-        setData(res.data)
-        setLoading(true)
-        HandleChange("")
-      })
-  }, [email, token])
+    const loginToken = localStorage.getItem("token")
+    if (loginToken) {
+      setToken(loginToken)
+    }
+  }, [setToken])
 
-  // useEffect(() => {
-  //   friendRequestsReceived()
-  // }, [])
 
   const handleLogout = () => {
     navigate("/login")
@@ -49,97 +24,24 @@ const UserData = () => {
   }
 
 
-
-  // Search Using Debouncing
-
-  const HandleChange = (value) => {
-    axios.get(`http://localhost:3002/search?searchData=${value}`, {
-      headers: {
-        'x-token': [token]
-      }
-    })
-      .then(res => {
-        if(res.data !== "Invalid Access Token"){
-          setAllUsersData(res.data)
-
-        }else{
-          setAllUsersData([])
-        }
-        setLoading(true)
-      })
-  }
-
-  // Debounce method
-
-  const debounce = (func) => {
-    let timer;
-    return function (...args) {
-      const context = this;
-      if (timer) clearTimeout(timer)
-      timer = setTimeout(() => {
-        timer = null;
-        func.apply(context, args)
-      }, 500);
-    }
-  }
-
-  // debounce Optimization
-
-  const optimizedFun = useCallback(debounce(HandleChange), [])
-
-  // Accept friend request
-
-  // const addFriendRequest = (id) => {
-  //   axios.put("http://localhost:3002/acceptFriendRequest", { id, email: data.email })
-  //     .then(response => {
-  //       console.log(response)
-  //     }).catch(err => {
-  //       console.log(err)
-  //     })
-
-  // }
-
-
-
   return (
     <div>
       {
         token && loading === true ?
-          <div>
-            <div>
-              <p>First Name : {data.firstName}</p>
-              <p>Last Name : {data.lastName}</p>
-              <p>Email : {data.email}</p>
-              <p>Designation : {data.phoneNumber}</p>
-              <p>Designation : {data.designation}</p>
-              <p>Experience : {data.experience}</p>
+        <div className='userDetailsCard'>
+            <Header />
+            <div className='userDetails'>
+              <h1>First Name : {data.firstName}</h1>
+              <h1>Last Name : {data.lastName}</h1>
+              <h1>Email : {data.email}</h1>
+              <h1>Designation : {data.phoneNumber}</h1>
+              <h1>Designation : {data.designation}</h1>
+              <h1>Experience : {data.experience}</h1>
               <button onClick={handleLogout}>logout</button>
             </div>
           </div>
           :
           <div>Loading......Please login again<a href="/login">Sign in</a></div>
-      }
-      {
-        allUsersData && token &&
-        <div>
-          <input placeholder='Search'
-            onChange={
-              (event) => optimizedFun(event.target.value)
-            }
-          />
-          <AllUsersData
-            allUsersData={allUsersData}
-            data={data}
-          />
-        </div>
-      }
-      {loading === true &&
-        <div>
-          <hr />
-          <SentFriendRequest data={data} />
-          <hr />
-          <ReceivedFriendRequest data={data} />
-        </div>
       }
     </div>
   )

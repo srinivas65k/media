@@ -1,12 +1,11 @@
 import React from 'react'
-
 const Header = () => {
   return (
     <div>
-        <div>
-            <a href="">Home</a>
-            <a href="">Notifications</a>
-            <a href="">Friend Requests</a>
+        <div className='header'>
+            <a href="/userData">Home</a>
+            <a href="/notifications">Notifications</a>
+            <a href="/requests">Friend Requests</a>
         </div>
     </div>
   )

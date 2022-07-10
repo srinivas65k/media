@@ -1,10 +1,16 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import AllUsersData from '../allUsersData';
+import { PayloadContext } from '../context';
+import Header from '../header/header';
 
-const ReceivedFriendRequest = ({ data }) => {
+const ReceivedFriendRequest = () => {
 
-    const [friendRequestData, setFriendRequestData] = useState();
+    const [friendRequestData, setFriendRequestData] = useState([]);
     const [requestData, setRequestData] = useState(false)
+
+    const { token, data, loading, setLoading } = useContext(PayloadContext)
+
 
     // Friend Request Recieved From users
 
@@ -12,7 +18,6 @@ const ReceivedFriendRequest = ({ data }) => {
         axios.get(`http://localhost:3002/notificationRequestReceived?id=${data._id}`)
             .then(response => {
                 setFriendRequestData(response.data.data)
-                console.log(response)
                 setRequestData(true)
 
             }).catch(error => {
@@ -39,23 +44,28 @@ const ReceivedFriendRequest = ({ data }) => {
 
     return (
         <div>
-            <h1>Friend Requested Received</h1>
-            {/* <button onClick={() => friendRequestsReceived()}>Click Here To See</button> */}
-            {
-                requestData === true && friendRequestData !== "no friends found" ?
+            <div>
+            <Header />
+                <h1>Friend Requests</h1>
+                {
+                    loading === true && requestData === true && friendRequestData !== "no friends found" ?
 
-                friendRequestData.map((user) =>
-                    user.status !== "accepted" ?
-                    <div key={user._id}>
-                        <h3>{user.firstName} {user.lastName}</h3>
-                        <button onClick={() => acceptFriendRequest(user._id)}>Accept</button>
-                    </div>
-                    :
-                    "You Have No Friend Requests"
-                )
-                :
-                "You Have No Friend Requests"
-            }
+                        friendRequestData.map((user) =>
+                            user.status !== "accepted" ?
+                                <div key={user._id}>
+                                    <h3>{user.firstName} {user.lastName}</h3>
+                                    <button onClick={() => acceptFriendRequest(user._id)}>Accept</button>
+                                </div>
+                                :
+                                "You Have No Friend Requests"
+                        )
+                        :
+                        "You Have No Friend Requests"
+                }
+            </div>
+            <div>
+                <AllUsersData />
+            </div>
         </div>
     )
 }

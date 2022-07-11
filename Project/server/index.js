@@ -4,14 +4,15 @@ const cors = require("cors");
 const bcrypt = require("bcrypt")
 const { createToken } = require("./jwt")
 const jwt = require("jsonwebtoken")
+const app = express();
+
+
+
 
 const UsersModel = require("./models/users");
-
 const FriendsModule = require("./models/friends");
-const { response } = require("express");
 
 
-const app = express();
 
 app.use(express.json());
 app.use(cors());
@@ -236,7 +237,7 @@ app.get("/notificationRequestSent", async (request, response) => {
             for (let rootUser of findRootUser) {
                 let usersObj = {}
                 var requestedDetails = await UsersModel.findOne
-                ({ _id: mongoose.Types.ObjectId(rootUser.requestId) })
+                    ({ _id: mongoose.Types.ObjectId(rootUser.requestId) })
                 // ({ _id: rootUser.requestId })
                 console.log(requestedDetails)
                 usersObj["userId"] = requestedDetails._id

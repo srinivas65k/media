@@ -13,7 +13,7 @@ import axios from 'axios';
 function App() {
   const [token, setToken] = useState(null);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
